@@ -55,6 +55,8 @@ def parsecsv(s):
   lines = s.split('\n')
   out = []
   for l in lines:
+    if not len(l) > 2:
+      continue
     out.append(l.split(','))
   return out
 
