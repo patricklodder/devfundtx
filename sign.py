@@ -17,7 +17,7 @@ settings = {}
 def run():
   key = SigningKey.from_string(get_key_from_wif(settings['wif']), SECP256k1, sha256)
   rs = compileASM(REDEEM_SCRIPT)
-  txs = parsetxs(settings['file'])
+  txs = parsetxsfile(settings['file'])
   for tx in txs:
     tx.signatures = sign_detached(tx.tx, key, rs)
     print(",".join(tx.signatures))
