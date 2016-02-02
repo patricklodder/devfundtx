@@ -25,6 +25,7 @@ TX_COMPONENTS = TxComponents(4,3,3,4,36,4,3,73,4,8,1,35)
 
 NETWORK_FEE = 1
 COIN = Decimal(1e8)
+FEE_MARGIN = Decimal(10) * COIN # pay 10 DOGE extra fee to compensate for float issues and tx size estimation errors
 
 OUTSIZE = TX_COMPONENTS.out_scriptlen + TX_COMPONENTS.out_scriptsize + TX_COMPONENTS.out_scriptlen
 
@@ -131,7 +132,7 @@ def make_bare_tx(candidate, change_address, rs_asm, version=1):
         est_size += in_size
 
     # calc fee and out amount
-    fee = Decimal(math.ceil(est_size / 1000)) * COIN * NETWORK_FEE
+    fee = (Decimal(math.ceil(est_size / 1000)) * COIN * NETWORK_FEE) + FEE_MARGIN
     change_amount = Decimal(math.floor(in_amount - (candidate.amount * COIN) - fee))
 
     # create outputs
